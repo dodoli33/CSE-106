@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <h1>ACME University</h1>
+    <div id="user-greeting">Welcome, Student!</div>
+    <a id="sign-out-link" href="/">Sign out</a>
+
+    <button id="your-courses-button" onclick="toggleTable('your-courses')">YOUR COURSES</button>
+    <button id="add-courses-button" onclick="toggleTable('add-courses')">ADD COURSES</button>
+
+    <table id="course-table">
+        <tr>
+            <th>Course Name</th>
+            <th>Teacher</th>
+            <th>Time</th>
+            <th>Students Enrolled</th>
+            <th id="add-course-header" style="display: none">Add class</th>
+        </tr>
+        <!-- Table rows will be dynamically generated here -->
+    </table>
+
+    <script>
+        var currentView = 'your-courses';
+
+        function toggleTable(view) {
+            var table = document.getElementById('course-table');
+            var yourCoursesButton = document.getElementById('your-courses-button');
+            var addCoursesButton = document.getElementById('add-courses-button');
+            var addCourseHeader = document.getElementById('add-course-header');
+
+            if (view === 'your-courses' && currentView !== 'your-courses') {
+                currentView = 'your-courses';
+                yourCoursesButton.innerText = 'YOUR COURSES';
+                addCoursesButton.innerText = 'ADD COURSES';
+                addCourseHeader.style.display = 'none';
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+                // Add your YOUR COURSES logic here
+                addYourCoursesRows(table);
+            } else if (view === 'add-courses' && currentView !== 'add-courses') {
+                currentView = 'add-courses';
+                yourCoursesButton.innerText = 'YOUR COURSES';
+                addCoursesButton.innerText = 'ADD COURSES';
+                addCourseHeader.style.display = 'table-cell';
+                // Remove the second row
+                if (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+                // Add your ADD COURSE logic here
+                addAddCourseRow(table);
+            }
+        }
+
+        function addYourCoursesRows(table) {
+            // Add your YOUR COURSES table rows here
+        }
+
+        function addAddCourseRow(table) {
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+
+            cell1.innerHTML = "";  // 课程名
+            cell2.innerHTML = "";  // 老师
+            cell3.innerHTML = "";  // 时间
+            cell4.innerHTML = "";  // 初始学生人数
+            cell5.innerHTML = "";  // Add Class
+        }
+    </script>
+</body>
+</html>
