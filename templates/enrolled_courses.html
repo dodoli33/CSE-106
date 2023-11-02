@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enrolled Courses</title>
+</head>
+<body>
+    <h1>Enrolled Courses</h1>
+    <ul>
+        {% for course_info in enrolled_courses %}
+            <li>{{ course_info }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -2,76 +2,59 @@
 <html>
 <head>
     <title>Student Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>ACME University</h1>
-    <div id="user-greeting">Welcome, Student!</div>
-    <a id="sign-out-link" href="/">Sign out</a>
-
-    <button id="your-courses-button" onclick="toggleTable('your-courses')">YOUR COURSES</button>
-    <button id="add-courses-button" onclick="toggleTable('add-courses')">ADD COURSES</button>
-
-    <table id="course-table">
-        <tr>
-            <th>Course Name</th>
-            <th>Teacher</th>
-            <th>Time</th>
-            <th>Students Enrolled</th>
-            <th id="add-course-header" style="display: none">Add class</th>
-        </tr>
-        <!-- Table rows will be dynamically generated here -->
+    <div class="welcome">Welcome, {{ current_user.username }}</div>
+    <h2>ACME University</h2>
+    <a class="sign-out" href="{{ url_for('logout') }}">Sign Out</a>
+    <div class="container">
+    <div id="button-container">
+        <button id="show-your-courses">Your Courses</button>
+        <button id="show-all-courses">Add Course</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Teacher</th>
+                <th>Time</th>
+                <th>Students Enrolled</th>
+                <th id="add-course-header" style="display: none">Add class</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.class_name }}</td>
+                    <td>{{ course.teacher_name }}</td>
+                    <td>{{ course.time }}</td>
+                    <td>{{ course.enrolled_students }} / {{ course.capacity }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
+    </div>
+    <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='totoro.gif') }}">
+    <footer>
+        <small>&copy; 2023 <a href ="https://www.ucmerced.edu">UcMerced</a></small>
+    </footer>
 
     <script>
-        var currentView = 'your-courses';
+        // 获取按钮元素
+        const showYourCoursesButton = document.getElementById("show-your-courses");
+        const showAllCoursesButton = document.getElementById("show-all-courses");
+        const addCourseHeader = document.getElementById("add-course-header");
 
-        function toggleTable(view) {
-            var table = document.getElementById('course-table');
-            var yourCoursesButton = document.getElementById('your-courses-button');
-            var addCoursesButton = document.getElementById('add-courses-button');
-            var addCourseHeader = document.getElementById('add-course-header');
+        // 添加事件监听器
+        showYourCoursesButton.addEventListener("click", () => {
+            addCourseHeader.style.display = "none"; // 隐藏"Add class"列
+        });
 
-            if (view === 'your-courses' && currentView !== 'your-courses') {
-                currentView = 'your-courses';
-                yourCoursesButton.innerText = 'YOUR COURSES';
-                addCoursesButton.innerText = 'ADD COURSES';
-                addCourseHeader.style.display = 'none';
-                while (table.rows.length > 1) {
-                    table.deleteRow(1);
-                }
-                // Add your YOUR COURSES logic here
-                addYourCoursesRows(table);
-            } else if (view === 'add-courses' && currentView !== 'add-courses') {
-                currentView = 'add-courses';
-                yourCoursesButton.innerText = 'YOUR COURSES';
-                addCoursesButton.innerText = 'ADD COURSES';
-                addCourseHeader.style.display = 'table-cell';
-                // Remove the second row
-                if (table.rows.length > 1) {
-                    table.deleteRow(1);
-                }
-                // Add your ADD COURSE logic here
-                addAddCourseRow(table);
-            }
-        }
-
-        function addYourCoursesRows(table) {
-            // Add your YOUR COURSES table rows here
-        }
-
-        function addAddCourseRow(table) {
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-            var cell5 = newRow.insertCell(4);
-
-            cell1.innerHTML = "";  // 课程名
-            cell2.innerHTML = "";  // 老师
-            cell3.innerHTML = "";  // 时间
-            cell4.innerHTML = "";  // 初始学生人数
-            cell5.innerHTML = "";  // Add Class
-        }
+        showAllCoursesButton.addEventListener("click", () => {
+            addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
+        });
     </script>
 </body>
 </html>

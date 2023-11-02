@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+h2 {
+    margin-top: 5vh; /* 控制标题的垂直位置，可以根据需要调整 */
+    margin-bottom: 15vh; 
+}
+
+form label {
+    margin-right: 30px; /* 增加标签和输入框之间的水平间隔 */
+    display: inline-block;
+}
+
+form input {
+    height: 25px; /* 设置输入框的高度 */
+    display: inline-block;
+    vertical-align: middle; /* 垂直居中对齐 */
+    margin: 20px 0;
+}
+
+form input[type="submit"] {
+    background-color: #0cd17f;
+    color: white;
+    padding: 20px 145px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center; /* 水平居中文本 */
+    line-height: 0px; /* 垂直居中文本，调整值以适应按钮的高度 */
+}
+
+
+form .password-label {
+    clear: both; /* 在新行开始 */
+}
+
+#button-container {
+    display: flex;
+    flex-direction: row; /* 水平排列按钮 */
+    justify-content: space-between;
+    width: 100%;
+    gap: 0px; /* 按钮之间的间隔 */
+}
+
+#show-your-courses, #show-all-courses {
+    /* 添加样式，如背景颜色、边框等 */
+    background-color: #0cd17f;
+    color: white;
+    padding: 10px 20px;
+    border: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.welcome {
+    position: absolute;
+    top: 30px; /* 距离顶部的距离 */
+    left: 80px; /* 距离左侧的距离 */
+    font-size: 20px;
+}
+
+.sign-out {
+    position: absolute;
+    top: 30px; /* 距离顶部的距离 */ 
+    right: 80px; /* 距离右侧的距离 */
+    font-size: 20px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #0099cc; /* 表头背景颜色 */
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* 偶数行背景颜色 */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff; /* 奇数行背景颜色 */
+}
+
+
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#picture
+.totoro {
+    display: block;
+    margin: 0 auto;
+    height: 100px;
+}
