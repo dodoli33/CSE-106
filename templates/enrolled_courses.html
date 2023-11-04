@@ -5,10 +5,14 @@
 </head>
 <body>
     <h1>Enrolled Courses</h1>
-    <ul>
-        {% for course_info in enrolled_courses %}
-            <li>{{ course_info }}</li>
-        {% endfor %}
-    </ul>
+    
+    {% for student_username, courses_info in student_course_info.items() %}
+        <h2>{{ student_username }}</h2>
+        <ul>
+            {% for course_info in courses_info %}
+                <li>{{ course_info }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 </body>
 </html>
