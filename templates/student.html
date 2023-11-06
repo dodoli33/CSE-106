@@ -42,18 +42,19 @@
     </footer>
 
     <script>
-        // 获取按钮元素
+        // 获取按钮元素(Get button element)
         const showYourCoursesButton = document.getElementById("show-your-courses");
         const showAllCoursesButton = document.getElementById("show-all-courses");
         const addCourseHeader = document.getElementById("add-course-header");
 
-        // 添加事件监听器
-        showYourCoursesButton.addEventListener("click", () => {
-            addCourseHeader.style.display = "none"; // 隐藏"Add class"列
-        });
+        // 添加事件监听器(Add event listener)
+        //showYourCoursesButton.addEventListener("click", () => {
+        //    addCourseHeader.style.display = "none"; // 隐藏"Add class"列
+        //});
 
         showAllCoursesButton.addEventListener("click", () => {
-            addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
+            //addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
+            window.location = "/student_dashboard_add_courses";
         });
     </script>
 </body>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="welcome">Welcome, {{ current_user.username }}</div>
+    <h2>ACME University</h2>
+    <a class="sign-out" href="{{ url_for('logout') }}">Sign Out</a>
+    <div class="container">
+    <div id="button-container">
+        <button id="show-your-courses">Your Courses</button>
+        <button id="show-all-courses">Add Course</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Teacher</th>
+                <th>Time</th>
+                <th>Students Enrolled</th>
+                <th>Add class</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in all_courses %}
+                <tr>
+                    <td>{{ course.class_name }}</td>
+                    <td>{{ course.teacher_name }}</td>
+                    <td>{{ course.time }}</td>
+                    <td>{{ course.enrolled_students }} / {{ course.capacity }}</td>
+                    <td>
+                        {% for student_course in student_courses  %}
+                            {% if course == student_course %}
+                                <button class="minus-button" id="{{course.id}}" onClick="modifyDatabase({{course.id}})"><img class="edit_icons" src="{{ url_for('static', filename='minus_sign.png') }}"></button>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% for not_student_course in not_student_courses  %}
+                            {% if course == not_student_course %}
+                                <button class="plus-button" id="{{course.id}}" onClick="modifyDatabase({{course.id}})"><img class="edit_icons" src="{{ url_for('static', filename='plus_sign.png') }}"></button>
+                            {% endif %}
+                        {% endfor %}
+                        {{is_student_course}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='totoro.gif') }}">
+    <footer>
+        <small>&copy; 2023 <a href ="https://www.ucmerced.edu">UcMerced</a></small>
+    </footer>
+
+    <script>
+        // 获取按钮元素(Get button element)
+        const showYourCoursesButton = document.getElementById("show-your-courses");
+        const showAllCoursesButton = document.getElementById("show-all-courses");
+        const addCourseHeader = document.getElementById("add-course-header");
+
+        // 添加事件监听器(Add event listener)
+        showYourCoursesButton.addEventListener("click", () => {
+            //addCourseHeader.style.display = "none"; // 隐藏"Add class"列
+            console.log("This is working\n");
+            window.location = "/student_dashboard_your_courses";
+        });
+
+        //showAllCoursesButton.addEventListener("click", () => {
+        //    addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
+        //});
+
+        function modifyDatabase(buttonId) {
+            window.location = "/reload_student_add_courses/" + buttonId;
+        }
+
+        function callAjax() {
+            const xhttp = new XMLHttpRequest();
+            const method = "GET"; // Could be GET, POST, PUT, DELETE, etc.
+            const url = "https:://sample.com";
+            const async = true; // asynchronous (true) or synchronous (false) – don’t use synchronous
+            xhttp.open(method, url, async);
+            xhttp.send();
+            xhttp.onload = function() {
+            document.getElementById("demo").innerHTML = this.responseText;
+            };
+        }
+    </script>
+</body>
+</html>
