@@ -101,7 +101,10 @@ tr:nth-child(odd) {
     background-color: #ffffff; /* 奇数行背景颜色 */
 }
 
-
+.edit_icons {
+    width: 20px;
+    height: 20px;
+}
 
 .container {
     width: 80%;

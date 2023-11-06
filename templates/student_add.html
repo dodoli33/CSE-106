@@ -21,16 +21,30 @@
                 <th>Teacher</th>
                 <th>Time</th>
                 <th>Students Enrolled</th>
-                <th id="add-course-header" style="display: none">Add class</th>
+                <th>Add class</th>
             </tr>
         </thead>
         <tbody>
-            {% for course in courses %}
+            {% for course in all_courses %}
                 <tr>
                     <td>{{ course.class_name }}</td>
                     <td>{{ course.teacher_name }}</td>
                     <td>{{ course.time }}</td>
                     <td>{{ course.enrolled_students }} / {{ course.capacity }}</td>
+                    <td>
+                        {% for student_course in student_courses  %}
+                            {% if course == student_course %}
+                                <button class="minus-button" id="{{course.id}}" onClick="modifyDatabase({{course.id}})"><img class="edit_icons" src="{{ url_for('static', filename='minus_sign.png') }}"></button>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% for not_student_course in not_student_courses  %}
+                            {% if course == not_student_course %}
+                                <button class="plus-button" id="{{course.id}}" onClick="modifyDatabase({{course.id}})"><img class="edit_icons" src="{{ url_for('static', filename='plus_sign.png') }}"></button>
+                            {% endif %}
+                        {% endfor %}
+                        {{is_student_course}}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -46,6 +60,7 @@
         const showYourCoursesButton = document.getElementById("show-your-courses");
         const showAllCoursesButton = document.getElementById("show-all-courses");
         const addCourseHeader = document.getElementById("add-course-header");
+        const minusButton = document.getElementByClass("minus-button");
 
         // 添加事件监听器(Add event listener)
         showYourCoursesButton.addEventListener("click", () => {
@@ -55,6 +70,22 @@
         showAllCoursesButton.addEventListener("click", () => {
             addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
         });
+
+        function modifyDatabase(buttonId) {
+            window.location = "/reload_student_add_courses/" + buttonId;
+        }
+
+        function callAjax() {
+            const xhttp = new XMLHttpRequest();
+            const method = "GET"; // Could be GET, POST, PUT, DELETE, etc.
+            const url = "https:://sample.com";
+            const async = true; // asynchronous (true) or synchronous (false) – don’t use synchronous
+            xhttp.open(method, url, async);
+            xhttp.send();
+            xhttp.onload = function() {
+            document.getElementById("demo").innerHTML = this.responseText;
+            };
+        }
     </script>
 </body>
 </html>
