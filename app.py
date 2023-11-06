@@ -73,7 +73,7 @@ def login():
             if isinstance(user, Teacher):
                 return redirect(url_for('teacher_dashboard'))
             elif isinstance(user, Student):
-                return redirect(url_for('student_dashboard_add_courses'))
+                return redirect(url_for('student_dashboard_your_courses'))
             #return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
 

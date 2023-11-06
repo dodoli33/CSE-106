@@ -60,16 +60,17 @@
         const showYourCoursesButton = document.getElementById("show-your-courses");
         const showAllCoursesButton = document.getElementById("show-all-courses");
         const addCourseHeader = document.getElementById("add-course-header");
-        const minusButton = document.getElementByClass("minus-button");
 
         // 添加事件监听器(Add event listener)
         showYourCoursesButton.addEventListener("click", () => {
-            addCourseHeader.style.display = "none"; // 隐藏"Add class"列
+            //addCourseHeader.style.display = "none"; // 隐藏"Add class"列
+            console.log("This is working\n");
+            window.location = "/student_dashboard_your_courses";
         });
 
-        showAllCoursesButton.addEventListener("click", () => {
-            addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
-        });
+        //showAllCoursesButton.addEventListener("click", () => {
+        //    addCourseHeader.style.display = "table-cell"; // 显示"Add class"列
+        //});
 
         function modifyDatabase(buttonId) {
             window.location = "/reload_student_add_courses/" + buttonId;
