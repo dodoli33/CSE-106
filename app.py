@@ -88,12 +88,21 @@ def teacher_dashboard():
     courses = Course.query.filter_by(teacher_name=fullName).all()
     return render_template('teacher.html', username=current_user.last_name, courses=courses)
 
-# @app.route('/teacher_dashboard/<courseID>')
-# @login_required
-# def student_grade_dashboard(courseID):
-#     course = Course.query.filter_by(id=courseID).first()
-#     students = student_course.query.filter_by(course_id=courseID).all()
-#     return render_template('studentGrades.html', course=course, students=students)
+@app.route('/teacher_dashboard/<courseID>')
+@login_required
+def student_grade_dashboard(courseID):
+    fullName = str(current_user.first_name) + " " + str(current_user.last_name)
+    course = Course.query.filter_by(id=courseID).first()
+
+    if course.teacher_name == fullName:
+        students = db.session.query(Student.first_name, Student.last_name, student_course.c.grade).join(student_course).filter(student_course.c.course_id == courseID).all()
+
+        if students:
+            return render_template('studentGrades.html', course=course, students=students)
+        else:
+            return redirect(url_for('teacher_dashboard'))
+    else:
+        return redirect(url_for('teacher_dashboard'))
 
 def not_courses(student_courses):
     #print(student_courses + '\n', file=sys.stderr)
@@ -188,6 +197,9 @@ def view_enrolled_courses():
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     student = Student(id='104', username='mnorris', password='111', first_name='Mindy', last_name='Norris')
+    #     db.session.add(student)
+    #     db.session.commit()
+
     app.run(port=5001)
