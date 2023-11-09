@@ -74,7 +74,10 @@ def login():
         if user and user.password == form.password.data:
             login_user(user)
             if isinstance(user, Teacher):
-                return redirect(url_for('teacher_dashboard'))
+                if user.username == "admin":
+                    return redirect(url_for('admin.index'))
+                else:
+                    return redirect(url_for('teacher_dashboard'))
             elif isinstance(user, Student):
                 return redirect(url_for('student_dashboard_your_courses'))
             #return redirect(url_for('dashboard'))
