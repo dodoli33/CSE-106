@@ -135,23 +135,24 @@ def student_dashboard_add_courses():
     not_student_courses = not_courses(student_courses) #should give you all courses student isn't enrolled in
     return render_template('student_add.html', username=current_user.username, student_courses=student_courses, all_courses=all_courses, not_student_courses=not_student_courses)
 
+#This is reaching a reload of the student page
 @app.route('/reload_student_add_courses/<courseId>')
 @login_required
 def reload_student_add_courses(courseId):
-    print("This is reaching a reload\n")
+    #This has found a course by searching for course ID
     course = Course.query.filter(Course.id == courseId).first()
-    print("This has found a course by searching for course Id\nCourse Id: %d course name: %s", course.id, course.class_name)
     student = Student.query.filter(Student.id == current_user.id).first()
     adding = True
-    print("Student enrolled courses: ", student.enrolled_courses)
 
     for enrolled in student.enrolled_courses:
         if course == enrolled:
             student.enrolled_courses.remove(course)
+            course.enrolled_students = course.enrolled_students - 1
             adding = False
 
-    if adding:
+    if adding and not course.enrolled_students >= course.capacity:
         student.enrolled_courses.append(course)
+        course.enrolled_students = course.enrolled_students + 1
 
     db.session.commit()
 
