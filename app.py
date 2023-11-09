@@ -28,12 +28,16 @@ class Student(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
     enrolled_courses = db.relationship('Course', secondary=student_course, backref='students')
 
 class Teacher(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,7 +47,6 @@ class Course(db.Model):
     enrolled_students = db.Column(db.Integer, default=0)
     capacity = db.Column(db.Integer, nullable=False)
     #students_list = db.relationship('Student', secondary=student_course, backref='courses_enrolled')
-
 
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
@@ -81,7 +84,16 @@ def login():
 @app.route('/teacher_dashboard')
 @login_required
 def teacher_dashboard():
-    return "Welcome to the teacher dashboard, {}".format(current_user.username)
+    fullName = str(current_user.first_name) + " " + str(current_user.last_name)
+    courses = Course.query.filter_by(teacher_name=fullName).all()
+    return render_template('teacher.html', username=current_user.last_name, courses=courses)
+
+# @app.route('/teacher_dashboard/<courseID>')
+# @login_required
+# def student_grade_dashboard(courseID):
+#     course = Course.query.filter_by(id=courseID).first()
+#     students = student_course.query.filter_by(course_id=courseID).all()
+#     return render_template('studentGrades.html', course=course, students=students)
 
 def not_courses(student_courses):
     #print(student_courses + '\n', file=sys.stderr)
@@ -176,4 +188,6 @@ def view_enrolled_courses():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(port=5001)

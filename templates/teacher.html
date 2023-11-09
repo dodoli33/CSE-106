@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teacher Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+        <!-- <script src="{{url_for('static', filename='scripts.js')}}"></script> -->
+    </head>
+
+    <body>
+        <div class="welcome">Welcome Dr. {{current_user.last_name}}!</div>
+        <h2>ACME University</h2>
+        <a class="sign-out" href="{{ url_for('logout') }}">Sign Out</a>
+
+        <div class="container">
+            <div>
+                <h3>Your Courses</h3>
+            </div>
+
+            <div class="courseTable">
+                <table>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Teacher</th>
+                        <th>Time</th>
+                        <th>Students Enrolled</th>
+                    </tr>
+                    {% for course in courses %}
+                        <tr>
+                            <td><a href="/teacher_dashboard/{{course.id}}">{{course.class_name}}</a></td>
+                            <td>{{course.teacher_name}}</td>
+                            <td>{{course.time}}</td>
+                            <td>{{course.enrolled_students}}/{{course.capacity}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='totoro.gif') }}">
+        
+        <footer>
+            <small>&copy; 2023 <a href ="https://www.ucmerced.edu">UCMerced</a></small>
+        </footer>
+    </body>
+</html>
