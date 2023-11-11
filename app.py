@@ -7,10 +7,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from sqlalchemy.orm import relationship
 from sqlalchemy import event
 import hashlib
-import sys
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
@@ -95,7 +93,6 @@ def login():
                     return redirect(url_for('teacher_dashboard'))
             elif isinstance(user, Student):
                 return redirect(url_for('student_dashboard_your_courses'))
-            #return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
 
 
@@ -141,7 +138,6 @@ def edit_student_grades(courseID):
     return jsonify({'message': 'Grades updated successfully'})
 
 def not_courses(student_courses):
-    #print(student_courses + '\n', file=sys.stderr)
     result = []
 
     for course in Course.query.all():
@@ -160,7 +156,6 @@ def student_dashboard_your_courses():
     all_courses = Course.query.filter(Course.enrolled_students < Course.capacity).all()
     not_student_courses = not_courses(student_courses) #should give you all courses student isn't enrolled in
     return render_template('student.html', username=current_user.first_name, courses=student_courses, student_courses=student_courses, all_courses=all_courses, not_student_courses=not_student_courses)
-#render_template('student.html', username=current_user.username, courses=student_courses)
 
 
 @app.route('/student_dashboard_add_courses')
@@ -231,7 +226,6 @@ def view_enrolled_courses():
         student_course_info[student.username] = enrolled_courses_info
     
     return render_template('enrolled_courses.html', student_course_info=student_course_info)
-
 
 if __name__ == '__main__':
     app.run(port=5001)
