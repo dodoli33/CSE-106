@@ -7,6 +7,8 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from sqlalchemy.orm import relationship
+from sqlalchemy import event
+import hashlib
 import sys
 
 app = Flask(__name__)
@@ -54,6 +56,18 @@ admin.add_view(ModelView(Student, db.session))
 admin.add_view(ModelView(Teacher, db.session))
 admin.add_view(ModelView(Course, db.session))
 
+@event.listens_for(Student.password, 'set', retval=True)
+def hash_student_password(target, value, oldvalue, initiator):
+    if value != oldvalue:
+        return hashlib.sha256(bytes(value, 'utf-8')).hexdigest()
+    return value
+
+@event.listens_for(Teacher.password, 'set', retval=True)
+def hash_teacher_password(target, value, oldvalue, initiator):
+    if value != oldvalue:
+        return hashlib.sha256(bytes(value, 'utf-8')).hexdigest()
+    return value
+
 login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
@@ -71,7 +85,7 @@ def login():
         user = Student.query.filter_by(username=form.username.data).first()
         if not user:
             user = Teacher.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:
+        if user and user.password == hashlib.sha256(bytes(form.password.data, 'utf-8')).hexdigest():
             login_user(user)
             if isinstance(user, Teacher):
                 if user.username == "admin":
