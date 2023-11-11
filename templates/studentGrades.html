@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teacher Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+        <!-- <script src="{{url_for('static', filename='scripts.js')}}"></script> -->
+    </head>
+
+    <body>
+        <div class="welcome">Welcome Dr. {{current_user.last_name}}!</div>
+        <h2>ACME University</h2>
+        <a class="sign-out" href="{{ url_for('logout') }}">Sign Out</a>
+
+        <div class="container">
+            <div>
+                <div>
+                    <a href="/teacher_dashboard"><i class="arrow left"></i></a>
+                    <h3 style="text-align: center;">{{course.class_name}}</h3>
+                </div>
+            </div>
+
+            <div class="courseTable">
+                <table id="studentTable">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Grade</th>
+                    </tr>
+                    {% for student in students %}
+                        <tr>
+                            <td id="studentName">{{student.first_name}} {{student.last_name}}</td>
+                            <td id="studentGrade" contenteditable="true">{{student.grade}}</td>
+                            <!-- <td id="studentGrade" contenteditable="true">90</td> -->
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <br>
+            
+            <button type="button" onclick="saveChanges()">Save Changes</button>
+        </div>
+
+        <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='totoro.gif') }}">
+        
+        <footer>
+            <small>&copy; 2023 <a href ="https://www.ucmerced.edu">UCMerced</a></small>
+        </footer>
+
+        <script>
+            async function saveChanges() {
+                let url = '/editGrades/{{course.id}}'
+                let table = document.getElementById('studentTable');
+                let data = []
+
+                for(let itr = 1; itr < table.rows.length; itr++) {
+                    let studentName = ((table.rows[itr].cells[0]).innerText).trim().split(' ');
+                    let firstName = studentName[0];
+                    let lastName = studentName[1];
+                    let studentGrade = (table.rows[itr].cells[1]).innerText;
+
+                    data.push({first_name: firstName, last_name: lastName, grade: studentGrade});
+                }
+
+                await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                    console.log('Success:', response.json());
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+        </script>
+    </body>
+</html>

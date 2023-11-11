@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="welcome">Welcome, {{ current_user.username }}</div>
+    <div class="welcome">Welcome {{ current_user.first_name }}</div>
     <h2>ACME University</h2>
     <a class="sign-out" href="{{ url_for('logout') }}">Sign Out</a>
     <div class="container">

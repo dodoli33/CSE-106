@@ -115,9 +115,20 @@ tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-#picture
 .totoro {
     display: block;
     margin: 0 auto;
-    height: 100px;
+    height: 80px;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
 }
