@@ -161,7 +161,7 @@ def student_dashboard_your_courses():
 @app.route('/student_dashboard_add_courses')
 @login_required
 def student_dashboard_add_courses():
-    all_courses = Course.query.filter(Course.enrolled_students < Course.capacity).all()
+    all_courses = Course.query.filter().all()
     student_courses = current_user.enrolled_courses #should give you all courses student is enrolled in
     not_student_courses = not_courses(student_courses) #should give you all courses student isn't enrolled in
     return render_template('student_add.html', username=current_user.first_name, student_courses=student_courses, all_courses=all_courses, not_student_courses=not_student_courses)
